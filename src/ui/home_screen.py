@@ -16,13 +16,28 @@ import datetime
 class HomeScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Window.clearcolor = get_color_from_hex('#F8F9FA')
+        Window.clearcolor = (1, 1, 1, 1)  # Set to white to avoid any color bleeding
+        
+        # Main layout
         self.layout = MDFloatLayout()
         self.add_widget(self.layout)
+        
+        # Background image
+        self.bg_image = Image(
+            source='src/assets/images/homepage.jpg',
+            allow_stretch=True,
+            keep_ratio=False,
+            size_hint=(1, 1)
+        )
+        self.layout.add_widget(self.bg_image)
+        
+        # Content layout (will be placed on top of background)
+        self.content_layout = MDFloatLayout()
+        self.layout.add_widget(self.content_layout)
 
         # Hamburger menu
         self.menu_btn = MDIconButton(icon='menu', pos_hint={'x':0.03, 'top':0.97}, theme_text_color='Custom', text_color=get_color_from_hex('#607D8B'))
-        self.layout.add_widget(self.menu_btn)
+        self.content_layout.add_widget(self.menu_btn)
 
         # Welcome box with clock
         self.welcome_card = MDCard(
@@ -41,32 +56,28 @@ class HomeScreen(MDScreen):
         self.welcome_box.add_widget(self.welcome_label)
         self.welcome_box.add_widget(self.clock_label)
         self.welcome_card.add_widget(self.welcome_box)
-        self.layout.add_widget(self.welcome_card)
+        self.content_layout.add_widget(self.welcome_card)
         Clock.schedule_interval(self.update_time, 1)
         self.update_time(0)
 
         # Four gradient buttons
         self.buttons_box = MDBoxLayout(orientation='vertical', spacing=18, size_hint=(0.92, None), height=340, pos_hint={'center_x': 0.5, 'top': 0.60})
-        self.layout.add_widget(self.buttons_box)
+        self.content_layout.add_widget(self.buttons_box)
         self.add_gradient_button('Calculate your GPA', 'arrow-right', 0)
         self.add_gradient_button('Open map', 'arrow-right', 1)
         self.add_gradient_button('Resources', 'arrow-right', 2)
         self.add_gradient_button('Contact Us', 'arrow-right', 3)
 
-        # Robot image and speech bubble
-        self.robot_box = MDFloatLayout(size_hint=(1, None), height=220, pos_hint={'center_x': 0.5, 'y': 0.13})
-        self.robot_img = Image(source='robot.png', size_hint=(None, None), size=(180, 180), pos_hint={'center_x': 0.3, 'y': 0})
-        self.speech = MDLabel(text='[b]Keep up\nthe good work![/b]', markup=True, theme_text_color='Custom', text_color=(0,0,0,1), font_style='H6', size_hint=(None, None), width=180, height=60, pos_hint={'center_x': 0.7, 'y': 0.55}, halign='center')
-        self.robot_box.add_widget(self.robot_img)
-        self.robot_box.add_widget(self.speech)
-        self.layout.add_widget(self.robot_box)
-
         # Bottom navigation bar
-        self.bottom_nav = MDBottomNavigation(panel_color=get_color_from_hex('#90A4AE'), text_color_active=(1,1,1,1), text_color_normal=(1,1,1,0.7), selected_color_background=get_color_from_hex('#607D8B'), elevation=12)
+        self.bottom_nav = MDBottomNavigation()
+        self.bottom_nav.panel_color = get_color_from_hex('#90A4AE')
+        self.bottom_nav.text_color_active = (1,1,1,1)
+        self.bottom_nav.text_color_normal = (1,1,1,0.7)
+        self.bottom_nav.selected_color_background = get_color_from_hex('#607D8B')
         self.bottom_nav.size_hint = (1, None)
         self.bottom_nav.height = 80
         self.bottom_nav.pos_hint = {'center_x': 0.5, 'y': 0}
-        self.layout.add_widget(self.bottom_nav)
+        self.content_layout.add_widget(self.bottom_nav)
         self.add_nav_item('Home', 'home')
         self.add_nav_item('Profile', 'account')
         self.add_nav_item('Campus', 'bank')
@@ -86,19 +97,17 @@ class HomeScreen(MDScreen):
             height=64,
             md_bg_color=bg_color,
             text_color=(1,1,1,1),
-            radius=[24],
             font_size=22,
-            right_icon=True,
-            style='elevated',
         )
         self.buttons_box.add_widget(btn)
 
     def add_nav_item(self, text, icon):
         nav_item = MDBottomNavigationItem(
             name=text.lower(),
-            text='',
+            text=text,
             icon=icon,
         )
+        nav_item.add_widget(MDLabel(text=f'{text} Page', halign='center'))
         self.bottom_nav.add_widget(nav_item)
 
     def update_time(self, *args):
