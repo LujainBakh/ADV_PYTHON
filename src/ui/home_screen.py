@@ -18,6 +18,7 @@ from kivymd.uix.list import MDList, OneLineIconListItem, IconLeftWidget
 from src.ui.bottom_nav import BottomNav
 from src.ui.gpacalculator_screen import GPACalculatorScreen
 from src.ui.resources_screen import ResourcesScreen
+from src.ui.map_screen import MapScreen
 
 img = CoreImage('src/assets/images/homepage.jpg')
 Window.size = (img.width, img.height)
@@ -217,6 +218,10 @@ class HomeScreen(MDScreen):
             if 'resources' not in app.root.screen_names:
                 app.root.add_widget(ResourcesScreen(name='resources'))
             app.root.current = 'resources'
+        elif instance.text == 'Open map':
+            if 'map' not in app.root.screen_names:
+                app.root.add_widget(MapScreen(name='map'))
+            app.root.current = 'map'
 
     def update_time(self, *args):
         now = datetime.datetime.now().strftime('%H:%M:%S')
