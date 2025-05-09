@@ -17,6 +17,7 @@ from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.list import MDList, OneLineIconListItem, IconLeftWidget
 from src.ui.bottom_nav import BottomNav
 from src.ui.gpacalculator_screen import GPACalculatorScreen
+from src.ui.resources_screen import ResourcesScreen
 
 img = CoreImage('src/assets/images/homepage.jpg')
 Window.size = (img.width, img.height)
@@ -207,12 +208,15 @@ class HomeScreen(MDScreen):
         self.buttons_box.add_widget(btn)
 
     def handle_button_press(self, instance):
+        app = MDApp.get_running_app()
         if instance.text == 'Calculate your GPA':
-            app = MDApp.get_running_app()
-            # Add GPA calculator screen if it doesn't exist
             if 'gpa_calculator' not in app.root.screen_names:
                 app.root.add_widget(GPACalculatorScreen(name='gpa_calculator'))
             app.root.current = 'gpa_calculator'
+        elif instance.text == 'Resources':
+            if 'resources' not in app.root.screen_names:
+                app.root.add_widget(ResourcesScreen(name='resources'))
+            app.root.current = 'resources'
 
     def update_time(self, *args):
         now = datetime.datetime.now().strftime('%H:%M:%S')
