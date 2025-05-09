@@ -16,11 +16,11 @@ class OfficeHourApp(tk.Tk):
         self.resizable(False, False)
 
         # AppBar
-        self.appbar = tk.Frame(self, bg='#AAB0BEC5', height=60)
+        self.appbar = tk.Frame(self, bg='#AAB0BE', height=60)
         self.appbar.pack(fill='x', side='top')
-        self.menu_icon = tk.Label(self.appbar, text='≡', bg='#AAB0BEC5', fg='white', font=('Arial', 24))
+        self.menu_icon = tk.Label(self.appbar, text='≡', bg='#AAB0BE', fg='white', font=('Arial', 24))
         self.menu_icon.place(x=10, y=10)
-        self.title_label = tk.Label(self.appbar, text='Office Hours', bg='#AAB0BEC5', fg='white', font=('Arial', 24, 'normal'))
+        self.title_label = tk.Label(self.appbar, text='Office Hours', bg='#AAB0BE', fg='white', font=('Arial', 24, 'normal'))
         self.title_label.pack(pady=10)
 
         # Main content
@@ -58,7 +58,7 @@ class OfficeHourApp(tk.Tk):
         self.time_menu.pack(side='right')
 
         # Confirm button
-        self.confirm_btn = tk.Button(self.content, text='Confirm', font=('Arial', 14), bg='#AAB0BEC5', fg='black',
+        self.confirm_btn = tk.Button(self.content, text='Confirm', font=('Arial', 14), bg='#FFC0CB', fg='black',
                                      relief='flat', bd=0, padx=32, pady=8, command=self.confirm)
         self.confirm_btn.pack(anchor='e', pady=(16, 0))
 
@@ -66,7 +66,7 @@ class OfficeHourApp(tk.Tk):
         tk.Label(self.content, bg='white').pack(pady=40)
 
         # Bottom navigation bar
-        self.navbar = tk.Frame(self, bg='#AAB0BEC5', height=80)
+        self.navbar = tk.Frame(self, bg='#FFC0CB', height=80)
         self.navbar.pack(fill='x', side='bottom')
         self.navbar.grid_propagate(False)
         self.add_navbar_buttons()
@@ -83,7 +83,7 @@ class OfficeHourApp(tk.Tk):
     def add_navbar_buttons(self):
         icons = ['🏠', '🧑‍💼', '🏛️', '📅']
         for i, icon in enumerate(icons):
-            btn = tk.Button(self.navbar, text=icon, font=('Arial', 24), bg='#AAB0BEC5', fg='white', relief='flat', bd=0)
+            btn = tk.Button(self.navbar, text=icon, font=('Arial', 24), bg='#FFC0CB', fg='white', relief='flat', bd=0)
             btn.grid(row=0, column=i, sticky='nsew', padx=10, pady=10)
         for i in range(4):
             self.navbar.grid_columnconfigure(i, weight=1)
