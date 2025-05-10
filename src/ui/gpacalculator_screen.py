@@ -23,10 +23,11 @@ class GPACalculatorScreen(MDScreen):
             md_bg_color=get_color_from_hex('#A9BCBD'),
             padding=[dp(10), 0, 0, 0]
         )
-        menu_button = MDIconButton(
-            icon="menu",
+        back_button = MDIconButton(
+            icon="arrow-left",
             theme_text_color="Custom",
-            text_color=(1, 1, 1, 1)
+            text_color=(1, 1, 1, 1),
+            on_release=self.go_back
         )
         title = MDLabel(
             text="GPA Calculator",
@@ -34,7 +35,7 @@ class GPACalculatorScreen(MDScreen):
             text_color=(1, 1, 1, 1),
             font_style="H6"
         )
-        top_bar.add_widget(menu_button)
+        top_bar.add_widget(back_button)
         top_bar.add_widget(title)
 
         content = MDBoxLayout(
@@ -193,3 +194,7 @@ class GPACalculatorScreen(MDScreen):
             self.gpa_result.text = f"Your GPA: {gpa:.2f}"
         else:
             self.gpa_result.text = "Error calculating GPA"
+
+    def go_back(self, *args):
+        self.manager.transition.direction = 'right'
+        self.manager.current = 'home'

@@ -71,37 +71,13 @@ class MapScreen(MDScreen):
         map_container = MDBoxLayout(size_hint_y=0.9)
         map_container.add_widget(self.map_view)
 
-        # Bottom navigation
-        bottom_nav = MDBoxLayout(
-            size_hint_y=None,
-            height=dp(56),
-            md_bg_color=(1, 1, 1, 0.9),
-            spacing="40dp",
-            padding=["20dp", "10dp", "20dp", "10dp"]
-        )
-
-        # Navigation icons
-        nav_icons = [
-            {"icon": "home", "text": "Home"},
-            {"icon": "account-group", "text": "Community"},
-            {"icon": "bank", "text": "University"},
-            {"icon": "calendar", "text": "Calendar"}
-        ]
-
-        for item in nav_icons:
-            button = MDIconButton(
-                icon=item["icon"],
-                theme_text_color="Custom",
-                text_color=get_color_from_hex('#757575'),
-                size_hint_x=None,
-                width="48dp"
-            )
-            bottom_nav.add_widget(button)
-
         # Add all elements to main layout
         main_layout.add_widget(top_bar)
         main_layout.add_widget(map_container)
-        main_layout.add_widget(bottom_nav)
+        
+        # Add shared bottom navigation
+        self.bottom_nav = BottomNav()
+        main_layout.add_widget(self.bottom_nav)
 
         self.add_widget(main_layout)
 

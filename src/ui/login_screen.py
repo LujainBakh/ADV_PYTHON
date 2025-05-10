@@ -83,6 +83,9 @@ class LoginScreen(Screen):
             if success:
                 self.status_label.text = 'Login successful!'
                 self.status_label.color = get_color_from_hex('#4CAF50')
+                # Switch to home screen after successful login
+                app = App.get_running_app()
+                app.root.current = 'home'
             else:
                 self.status_label.text = 'Invalid email or password'
                 self.status_label.color = get_color_from_hex('#F44336')

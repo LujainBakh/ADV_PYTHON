@@ -7,6 +7,9 @@ from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.button import Button
 from PIL import Image
 from src.database.db_manager import DatabaseManager
+from src.ui.profile_screen import ProfileScreen
+from src.ui.instructors_screen import InstructorsScreen
+from src.ui.officehours_screen import OfficeHoursScreen
 
 
 class MyApp(MDApp):
@@ -14,6 +17,7 @@ class MyApp(MDApp):
         super().__init__(**kwargs)
         self.db = DatabaseManager()
         self.current_user = None
+        self.current_user_id = None
 
     def build(self):
         # Get image dimensions
@@ -36,10 +40,16 @@ class MyApp(MDApp):
         # Create screens
         self.login_screen = LoginScreen(name='login')
         self.home_screen = HomeScreen(name='home')
+        self.profile_screen = ProfileScreen(name='profile')
+        self.instructors_screen = InstructorsScreen(name='instructors')
+        self.officehours_screen = OfficeHoursScreen(name='office_hours')
         
         # Add screens to manager
         self.sm.add_widget(self.login_screen)
         self.sm.add_widget(self.home_screen)
+        self.sm.add_widget(self.profile_screen)
+        self.sm.add_widget(self.instructors_screen)
+        self.sm.add_widget(self.officehours_screen)
         
         # Set initial screen
         self.sm.current = 'login'
@@ -52,8 +62,9 @@ class MyApp(MDApp):
     def handle_login(self, email, password):
         user = self.db.verify_user(email, password)
         if user:
-            self.current_user = user
-            self.go_to_home()
+            self.current_user = user  # This will be a tuple of (id, first_name, last_name)
+            self.current_user_id = user[0]
+            print(f"User logged in: {self.current_user}")
             return True
         return False
 

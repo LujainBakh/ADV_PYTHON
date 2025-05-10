@@ -19,6 +19,7 @@ from src.ui.bottom_nav import BottomNav
 from src.ui.gpacalculator_screen import GPACalculatorScreen
 from src.ui.resources_screen import ResourcesScreen
 from src.ui.map_screen import MapScreen
+from src.ui.profile_screen import ProfileScreen
 
 img = CoreImage('src/assets/images/homepage.jpg')
 Window.size = (img.width, img.height)
@@ -98,17 +99,18 @@ class HomeScreen(MDScreen):
         
         # Menu items
         menu_items = [
-            {"icon": "account-circle", "text": "Profile"},
-            {"icon": "map", "text": "Map"},
-            {"icon": "calculator-variant", "text": "GPA Calculator"},
-            {"icon": "cog", "text": "Settings"},
-            {"icon": "logout", "text": "Log out"}
+            {"icon": "account-circle", "text": "Profile", "on_release": self.navigate_to_profile},
+            {"icon": "map", "text": "Map", "on_release": self.navigate_to_map},
+            {"icon": "calculator-variant", "text": "GPA Calculator", "on_release": self.navigate_to_gpa},
+            {"icon": "logout", "text": "Log out", "on_release": self.logout}
         ]
         
         menu_list = MDList()
         for item in menu_items:
             list_item = OneLineIconListItem(text=item["text"])
             list_item.add_widget(IconLeftWidget(icon=item["icon"]))
+            if "on_release" in item:
+                list_item.bind(on_release=item["on_release"])
             menu_list.add_widget(list_item)
         
         drawer_content.add_widget(menu_list)
@@ -226,3 +228,31 @@ class HomeScreen(MDScreen):
     def update_time(self, *args):
         now = datetime.datetime.now().strftime('%H:%M:%S')
         self.clock_label.text = now 
+
+    def navigate_to_map(self, *args):
+        app = MDApp.get_running_app()
+        if 'map' not in app.root.screen_names:
+            app.root.add_widget(MapScreen(name='map'))
+        app.root.current = 'map'
+        self.nav_drawer.set_state("close") 
+
+    def navigate_to_profile(self, *args):
+        app = MDApp.get_running_app()
+        app.root.current = 'profile'
+        self.nav_drawer.set_state("close") 
+
+    def navigate_to_gpa(self, *args):
+        app = MDApp.get_running_app()
+        if 'gpa_calculator' not in app.root.screen_names:
+            app.root.add_widget(GPACalculatorScreen(name='gpa_calculator'))
+        app.root.current = 'gpa_calculator'
+        self.nav_drawer.set_state("close")
+
+    def logout(self, *args):
+        app = MDApp.get_running_app()
+        # Clear user data
+        app.current_user = None
+        app.current_user_id = None
+        # Navigate to login screen
+        app.root.current = 'login'
+        self.nav_drawer.set_state("close") 

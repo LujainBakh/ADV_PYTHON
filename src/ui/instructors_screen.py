@@ -17,6 +17,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 import webbrowser
+from src.ui.bottom_nav import BottomNav
 
 class InstructorsScreen(MDScreen):
     search_text = StringProperty("")
@@ -94,20 +95,11 @@ class InstructorsScreen(MDScreen):
         self.scroll = ScrollView(size_hint=(1, 1))
         self.scroll.add_widget(self.cards_box)
         self.layout.add_widget(self.scroll)
-        # Floating Bottom Navigation
-        nav_bar = MDBoxLayout(
-            orientation='horizontal',
-            size_hint_y=None,
-            height=dp(64),
-            padding=[dp(16), dp(8), dp(16), dp(8)],
-            spacing=dp(32),
-            md_bg_color=get_color_from_hex('#90A4AE'),
-        )
-        nav_bar.add_widget(MDIconButton(icon='home', theme_text_color='Custom', text_color=(1,1,1,1)))
-        nav_bar.add_widget(MDIconButton(icon='account', theme_text_color='Custom', text_color=(1,1,1,1)))
-        nav_bar.add_widget(MDIconButton(icon='bank', theme_text_color='Custom', text_color=(1,1,1,1)))
-        nav_bar.add_widget(MDIconButton(icon='calendar', theme_text_color='Custom', text_color=(1,1,1,1)))
-        self.layout.add_widget(nav_bar)
+        
+        # Add shared bottom navigation
+        self.bottom_nav = BottomNav()
+        self.layout.add_widget(self.bottom_nav)
+        
         self.add_widget(self.layout)
         self.update_instructor_cards()
 

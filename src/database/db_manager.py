@@ -122,3 +122,20 @@ class DatabaseManager:
         except Exception as e:
             print(f"Error getting user info: {e}")
             return None 
+
+    def update_user_info(self, user_id, email, first_name, last_name, college_name, phone_number):
+        """Update user information by ID"""
+        try:
+            conn = sqlite3.connect(str(self.db_path))
+            cursor = conn.cursor()
+            cursor.execute('''
+                UPDATE users
+                SET email = ?, first_name = ?, last_name = ?, college_name = ?, phone_number = ?
+                WHERE id = ?
+            ''', (email, first_name, last_name, college_name, phone_number, user_id))
+            conn.commit()
+            conn.close()
+            return True
+        except Exception as e:
+            print(f"Error updating user info: {e}")
+            return False 
