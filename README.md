@@ -2,6 +2,8 @@
 
 **ADV_PYTHON** is an advanced Python project that uses the [Kivy](https://kivy.org/) framework to build cross-platform applications with a graphical user interface (GUI). It is configured to be packaged using [Buildozer](https://github.com/kivy/buildozer), allowing for easy deployment on Android devices.
 
+This project was done for the Advanced Programming Languages course - CS 516.
+
 ## Features
 
 - Interactive GUI built with Kivy
